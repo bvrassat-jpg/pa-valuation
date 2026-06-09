@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PrimeAuctions &middot; Valuation Engine</title>
+<title>PrimeAuctions - Valuation Engine</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%239A7A28'/%3E%3Ctext x='16' y='22' font-family='serif' font-size='18' font-weight='bold' fill='%23FFFFFF' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -15,131 +15,180 @@
   --gold:#9A7A28;--gold-light:rgba(154,122,40,0.10);
   --slate:#4A6580;--red:#B03020;--green:#1E8049;--amber:#B85C10;
   --radius:8px;
-  --font-serif:'DM Serif Display',Georgia,serif;
-  --font-sans:'Inter',system-ui,sans-serif;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
 }
-body{background:var(--bg);color:var(--text);font-family:var(--font-sans);min-height:100vh;font-size:14px;line-height:1.6}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh}
+/* HEADER */
 header{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-icon{width:32px;height:32px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:18px;color:#fff;font-weight:900;line-height:1}
-.logo-text{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text)}
+.logo-icon{width:32px;height:32px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;color:#fff;font-weight:900}
+.logo-text{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .logo-sub{font-size:11px;color:var(--text3);letter-spacing:.05em;text-transform:uppercase}
-.header-right{display:flex;align-items:center;gap:12px}
-.version-tag{font-size:11px;color:var(--text3);border:1px solid var(--border2);padding:3px 8px;border-radius:20px}
-.btn-reset{font-size:12px;color:var(--text2);background:none;border:1px solid var(--border2);padding:5px 12px;border-radius:4px;cursor:pointer;font-family:var(--font-sans);transition:all .15s}
-.btn-reset:hover{border-color:var(--gold);color:var(--gold)}
+.vtag{font-size:11px;color:var(--text3);border:1px solid var(--border2);padding:3px 8px;border-radius:20px}
+.btn-sm{font-size:12px;color:var(--text2);background:none;border:1px solid var(--border2);padding:5px 12px;border-radius:4px;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.btn-sm:hover{border-color:var(--gold);color:var(--gold)}
+/* LAYOUT */
 .app{display:grid;grid-template-columns:400px 1fr;height:calc(100vh - 57px)}
 .panel-left{border-right:1px solid var(--border);overflow-y:auto;background:var(--bg2)}
-.panel-section{border-bottom:1px solid var(--border);padding:18px 20px}
-.panel-section:last-child{border-bottom:none}
-.section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.form-col{grid-column:span 2}
-.field-group{display:flex;flex-direction:column;gap:4px}
-.field-label{font-size:11px;color:var(--text2);font-weight:500;letter-spacing:.03em}
-input[type=text],input[type=number],select,textarea{background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:4px;padding:8px 10px;font-family:var(--font-sans);font-size:13px;width:100%;transition:border-color .15s}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
-select option{background:#fff;color:var(--text)}
-input::placeholder,textarea::placeholder{color:var(--text3)}
-textarea{resize:vertical;min-height:80px;line-height:1.5}
-.slider-wrap{display:flex;align-items:center;gap:10px}
-input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:var(--border2);border-radius:2px;border:none;padding:0}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--gold);cursor:pointer}
-.slider-val{font-size:13px;font-weight:600;color:var(--gold);min-width:24px;text-align:right}
-.slider-labels{display:flex;justify-content:space-between;margin-top:2px}
-.slider-labels span{font-size:10px;color:var(--text3)}
-.toggle-group{display:flex;gap:6px;flex-wrap:wrap}
-.toggle-btn{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border2);background:none;color:var(--text2);cursor:pointer;font-family:var(--font-sans);transition:all .15s}
-.toggle-btn.active{background:var(--gold-light);border-color:var(--gold);color:var(--gold);font-weight:600}
-.btn-analyze{width:100%;padding:14px;background:var(--gold);color:#fff;border:none;border-radius:var(--radius);font-family:var(--font-serif);font-size:16px;cursor:pointer;letter-spacing:.02em;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-analyze:hover{background:#7A6020;transform:translateY(-1px)}
-.btn-analyze:disabled{background:#C8B878;cursor:not-allowed;transform:none}
-.spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
-.btn-analyze.loading .spinner{display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
 .panel-right{overflow-y:auto;padding:28px;background:var(--bg)}
+/* LEFT PANEL SECTIONS */
+.psec{border-bottom:1px solid var(--border);padding:20px}
+.psec:last-child{border-bottom:none}
+.slabel{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.slabel::after{content:'';flex:1;height:1px;background:var(--border)}
+/* DROP ZONE */
+.drop-zone{border:2px dashed var(--border2);border-radius:var(--radius);padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg3);position:relative}
+.drop-zone:hover,.drop-zone.over{border-color:var(--gold);background:var(--gold-light)}
+.drop-zone input{display:none}
+.drop-icon{font-size:32px;margin-bottom:10px}
+.drop-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.drop-sub{font-size:12px;color:var(--text3)}
+.file-pill{display:flex;align-items:center;gap:8px;background:var(--gold-light);border:1px solid var(--gold);border-radius:6px;padding:8px 12px;margin-top:12px;font-size:12px;color:var(--gold);font-weight:500}
+.file-pill .remove{margin-left:auto;cursor:pointer;color:var(--text3);font-size:16px;line-height:1}
+.file-pill .remove:hover{color:var(--red)}
+/* OR DIVIDER */
+.or-divider{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:11px;color:var(--text3)}
+.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+/* TEXTAREA */
+textarea{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:var(--radius);padding:10px 12px;font-family:var(--sans);font-size:13px;resize:vertical;line-height:1.5}
+textarea:focus{outline:none;border-color:var(--gold)}
+textarea::placeholder{color:var(--text3)}
+/* STEP INDICATOR */
+.steps{display:flex;gap:0;margin-bottom:16px}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;top:14px;left:50%;width:100%;height:2px;background:var(--border);z-index:0}
+.step.active:not(:last-child)::after{background:var(--gold)}
+.step-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text3);z-index:1;position:relative}
+.step.active .step-dot{border-color:var(--gold);background:var(--gold);color:#fff}
+.step.done .step-dot{border-color:var(--green);background:var(--green);color:#fff}
+.step-label{font-size:10px;color:var(--text3);text-align:center;line-height:1.3}
+.step.active .step-label,.step.done .step-label{color:var(--text2)}
+/* ADDRESS CANDIDATES */
+.candidate-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.candidate{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:12px;cursor:pointer;transition:all .15s;font-size:12px;color:var(--text2);line-height:1.5}
+.candidate:hover{border-color:var(--gold);background:var(--gold-light)}
+.candidate.selected{border-color:var(--gold);background:var(--gold-light);color:var(--text)}
+.candidate-type{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
+/* EXTRACTED DATA PREVIEW */
+.extracted-preview{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-top:4px}
+.ep-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px}
+.ep-row:last-child{border-bottom:none}
+.ep-label{color:var(--text3)}
+.ep-value{font-weight:500;color:var(--text);text-align:right;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* BUTTONS */
+.btn-primary{width:100%;padding:14px;background:var(--gold);color:#fff;border:none;border-radius:var(--radius);font-family:var(--serif);font-size:16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{background:#7A6020}
+.btn-primary:disabled{background:#C8B878;cursor:not-allowed}
+.btn-secondary{width:100%;padding:10px;background:none;color:var(--text2);border:1px solid var(--border2);border-radius:var(--radius);font-family:var(--sans);font-size:13px;cursor:pointer;transition:all .15s;margin-top:8px}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+.loading .spinner{display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* INFO BOX */
+.info-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;font-size:12px;color:var(--text2);line-height:1.6;margin-top:8px}
+.info-box strong{color:var(--text)}
+/* RIGHT PANEL - EMPTY */
 .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;gap:16px}
 .empty-icon{width:72px;height:72px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--text3)}
-.empty-title{font-family:var(--font-serif);font-size:20px;color:var(--text2)}
-.empty-sub{font-size:13px;color:var(--text3);max-width:320px;line-height:1.7}
+.empty-title{font-family:var(--serif);font-size:20px;color:var(--text2)}
+.empty-sub{font-size:13px;color:var(--text3);max-width:340px;line-height:1.7}
+.empty-steps{display:flex;flex-direction:column;gap:10px;margin-top:8px;text-align:left;max-width:300px}
+.empty-step{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--text3)}
+.empty-step-num{width:20px;height:20px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+/* RESULTS */
 .results{display:none}
 .results.visible{display:block}
+/* COMP BADGE */
 .comp-badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--text2);margin-bottom:20px}
 .comp-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
 .comp-badge.warn .dot{background:var(--amber)}
 .comp-badge.none .dot{background:var(--red)}
+/* VERDICT */
 .verdict-header{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
 .verdict-cell{background:var(--bg2);padding:18px;text-align:center}
 .verdict-cell.primary{background:var(--bg3)}
 .verdict-eyebrow{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
-.verdict-number{font-family:var(--font-serif);font-size:24px;color:var(--text);line-height:1;margin-bottom:4px}
+.verdict-number{font-family:var(--serif);font-size:24px;color:var(--text);line-height:1;margin-bottom:4px}
 .verdict-number.gold{color:var(--gold)}
 .verdict-number.amber{color:var(--amber)}
 .verdict-sub{font-size:11px;color:var(--text3)}
-.price-derivation{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
-.pd-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px}
-.pd-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
-.pd-row:last-child{border-bottom:none}
-.pd-label{color:var(--text2)}
-.pd-value{font-weight:600;color:var(--text)}
-.pd-value.gold{color:var(--gold)}
-.confidence-bar-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px}
+/* DERIVATION */
+.deriv-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
+.block-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:12px}
+.dr-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
+.dr-row:last-child{border-bottom:none}
+.dr-label{color:var(--text2)}
+.dr-value{font-weight:600;color:var(--text)}
+.dr-value.gold{color:var(--gold)}
+/* MARKET INFERRED */
+.market-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--slate);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px}
+.market-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.market-item{font-size:12px}
+.market-item-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
+.market-item-value{color:var(--text2);line-height:1.5}
+/* CONFIDENCE */
+.conf-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px}
 .cb-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .cb-title{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text2)}
-.cb-score{font-family:var(--font-serif);font-size:20px}
+.cb-score{font-family:var(--serif);font-size:20px}
 .cb-track{height:7px;background:var(--bg4);border-radius:4px;overflow:hidden;margin-bottom:8px}
 .cb-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--red) 0%,var(--amber) 40%,var(--green) 100%);transition:width .8s cubic-bezier(.34,1.56,.64,1);width:0}
 .cb-labels{display:flex;justify-content:space-between}
 .cb-label{font-size:10px;color:var(--text3)}
+/* SIGNALS */
 .signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
 .signal-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
 .signal-card.full{grid-column:span 2}
 .sig-eyebrow{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:6px}
 .sig-score-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
-.sig-score{font-family:var(--font-serif);font-size:18px}
+.sig-score{font-family:var(--serif);font-size:18px}
 .sig-score.bull{color:var(--green)}.sig-score.bear{color:var(--red)}.sig-score.neut{color:var(--amber)}
 .sig-label{font-size:12px;font-weight:600;color:var(--text)}
 .sig-body{font-size:12px;color:var(--text2);line-height:1.6}
-.sig-mini-bar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
-.sig-mini-fill{height:100%;border-radius:2px}
-.sig-mini-fill.bull{background:var(--green)}.sig-mini-fill.bear{background:var(--red)}.sig-mini-fill.neut{background:var(--amber)}
+.sig-bar{height:3px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.sig-fill{height:100%;border-radius:2px}
+.sig-fill.bull{background:var(--green)}.sig-fill.bear{background:var(--red)}.sig-fill.neut{background:var(--amber)}
+/* NARRATIVE */
 .narrative-block{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px}
 .narrative-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
 .narrative-body{font-size:13px;color:var(--text2);line-height:1.8}
 .narrative-body p{margin-bottom:10px}
 .narrative-body p:last-child{margin-bottom:0}
+/* COMPS TABLE */
 .comps-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px;overflow-x:auto}
-.comps-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:12px}
 table{width:100%;border-collapse:collapse;font-size:12px}
 th{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding:6px 8px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
 td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text2)}
 tr:last-child td{border-bottom:none}
-td.price{font-weight:600;color:var(--text)}
-td.sqm{color:var(--gold);font-weight:600}
-.talking-points{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px}
-.tp-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin-bottom:12px}
+td.num{font-weight:600;color:var(--text)}
+td.gold{color:var(--gold);font-weight:600}
+/* TALKING POINTS */
+.tp-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:20px}
 .tp-item{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.6}
 .tp-item:last-child{border-bottom:none;padding-bottom:0}
-.tp-num{font-family:var(--font-serif);font-size:16px;color:var(--gold);min-width:20px;line-height:1.4}
+.tp-num{font-family:var(--serif);font-size:16px;color:var(--gold);min-width:20px;line-height:1.4}
 .tp-text{color:var(--text2)}
+/* ACTION BAR */
 .action-bar{display:flex;gap:10px;margin-bottom:20px}
-.btn-action{flex:1;padding:10px;border-radius:var(--radius);font-family:var(--font-sans);font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--bg2);color:var(--text2);transition:all .15s}
+.btn-action{flex:1;padding:10px;border-radius:var(--radius);font-family:var(--sans);font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--bg2);color:var(--text2);transition:all .15s}
 .btn-action:hover{border-color:var(--gold);color:var(--gold)}
 .btn-action.primary{background:var(--gold-light);border-color:var(--gold);color:var(--gold)}
-.skeleton-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;position:relative;padding:16px}
-.skeleton-block::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.7) 50%,transparent 100%);animation:shimmer 1.5s infinite}
-@keyframes shimmer{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
-.sk-h{height:16px;background:var(--bg4);border-radius:4px;margin-bottom:10px;width:40%}
-.sk-line{height:11px;background:var(--bg3);border-radius:4px;margin-bottom:7px}
-.sk-line.short{width:65%}
+/* LOADING */
 .phase-indicator{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;font-size:12px;color:var(--text2)}
 .phase-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1.2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.skel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;position:relative;padding:16px}
+.skel::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.7) 50%,transparent 100%);animation:shim 1.5s infinite}
+@keyframes shim{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.sk-h{height:14px;background:var(--bg4);border-radius:4px;margin-bottom:10px;width:35%}
+.sk-l{height:11px;background:var(--bg3);border-radius:4px;margin-bottom:7px}
+.sk-l.s{width:60%}
+/* SCROLLBAR */
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--bg3)}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-@media(max-width:768px){.app{grid-template-columns:1fr;height:auto}.panel-right{padding:16px}.verdict-header{grid-template-columns:1fr}.signal-grid{grid-template-columns:1fr}.signal-card.full{grid-column:span 1}}
+@media(max-width:768px){.app{grid-template-columns:1fr;height:auto}.panel-right{padding:16px}.verdict-header,.signal-grid,.market-grid{grid-template-columns:1fr}.signal-card.full{grid-column:span 1}}
 </style>
 </head>
 <body>
@@ -151,170 +200,101 @@ td.sqm{color:var(--gold);font-weight:600}
       <div class="logo-sub">Valuation Engine</div>
     </div>
   </div>
-  <div class="header-right">
-    <span class="version-tag">v3.0</span>
-    <button class="btn-reset" onclick="resetAll()">&#8634; New Valuation</button>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span class="vtag">v4.0</span>
+    <button class="btn-sm" onclick="resetAll()">&#8634; New Valuation</button>
   </div>
 </header>
 
 <div class="app">
-  <div class="panel-left">
+  <div class="panel-left" id="panel-left">
 
-    <div class="panel-section">
-      <div class="section-label">Property Identity</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div class="field-group">
-          <label class="field-label">Full Address *</label>
-          <input type="text" id="f-address" placeholder="e.g. 12 Avenue des Pins, Roquebrune-Cap-Martin"/>
+    <!-- STEP INDICATOR -->
+    <div class="psec" style="padding-bottom:16px">
+      <div class="steps" id="steps">
+        <div class="step active" id="step-1"><div class="step-dot">1</div><div class="step-label">Document</div></div>
+        <div class="step" id="step-2"><div class="step-dot">2</div><div class="step-label">Address</div></div>
+        <div class="step" id="step-3"><div class="step-dot">3</div><div class="step-label">Valuation</div></div>
+      </div>
+    </div>
+
+    <!-- STEP 1: DOCUMENT INPUT -->
+    <div id="pane-1">
+      <div class="psec">
+        <div class="slabel">Document Input</div>
+        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-inp').click()">
+          <input type="file" id="file-inp" accept=".pdf" onchange="handleFile(this.files[0])"/>
+          <div class="drop-icon">&#128196;</div>
+          <div class="drop-title">Drop agency PDF here</div>
+          <div class="drop-sub">or click to browse &mdash; digital PDFs only</div>
         </div>
-        <div class="form-grid">
-          <div class="field-group">
-            <label class="field-label">Property Type</label>
-            <select id="f-type">
-              <option value="">&#8212; select &#8212;</option>
-              <option value="Maison">Villa / House</option>
-              <option value="Appartement">Apartment</option>
-              <option value="Maison">Chalet</option>
-              <option value="Maison">Estate / Domaine</option>
-              <option value="Maison">Other</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label class="field-label">Surface (m&sup2;)</label>
-            <input type="number" id="f-surface" placeholder="e.g. 320"/>
-          </div>
-          <div class="field-group">
-            <label class="field-label">Seller's Ask (&euro;)</label>
-            <input type="text" id="f-ask" placeholder="e.g. 4,500,000"/>
-          </div>
-          <div class="field-group">
-            <label class="field-label">Last Sale Year</label>
-            <input type="number" id="f-lastsale" placeholder="e.g. 2019"/>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Days on Market</label>
-          <input type="number" id="f-dom" placeholder="Leave blank if new to market"/>
+        <div id="file-pill-wrap"></div>
+        <div class="or-divider">or paste text</div>
+        <textarea id="paste-text" rows="7" placeholder="Paste listing description, agent notes, valuation memo, or any property text&#8230;&#10;&#10;The engine will extract all property data automatically."></textarea>
+      </div>
+      <div class="psec">
+        <button class="btn-primary" id="btn-extract" onclick="runExtract()">
+          <span class="spinner" id="spin-extract"></span>
+          <span id="txt-extract">Extract Property Data</span>
+        </button>
+        <div class="info-box" style="margin-top:12px">
+          <strong>What happens next:</strong> The engine reads the document, extracts all property data, then asks you to confirm the address before fetching comparable sales and running the valuation.
         </div>
       </div>
     </div>
 
-    <div class="panel-section">
-      <div class="section-label">Property Description</div>
-      <textarea id="f-description" rows="4" placeholder="Listing description, agent notes, appraisal excerpt, notable features&#8230;"></textarea>
-    </div>
-
-    <div class="panel-section">
-      <div class="section-label">Market Parameters</div>
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div class="field-group">
-          <label class="field-label">Market Liquidity</label>
-          <div class="slider-wrap">
-            <input type="range" id="sl-liquidity" min="1" max="10" value="5" oninput="document.getElementById('sv-liquidity').textContent=this.value"/>
-            <span class="slider-val" id="sv-liquidity">5</span>
-          </div>
-          <div class="slider-labels"><span>Illiquid</span><span>Deep</span></div>
+    <!-- STEP 2: ADDRESS CONFIRM -->
+    <div id="pane-2" style="display:none">
+      <div class="psec">
+        <div class="slabel">Extracted Data</div>
+        <div class="extracted-preview" id="extracted-preview"></div>
+      </div>
+      <div class="psec">
+        <div class="slabel">Confirm Address</div>
+        <div class="info-box" style="margin-bottom:12px">Select the correct location from the results below. This determines which DVF transactions are used as comparables.</div>
+        <div class="candidate-list" id="candidate-list"></div>
+        <div id="no-candidates" style="display:none">
+          <div class="info-box" style="border-color:var(--amber)">No results found. Edit the address below and retry.</div>
+          <input type="text" id="manual-address" style="width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);border-radius:4px;padding:8px 10px;font-family:var(--sans);font-size:13px;margin-top:8px" placeholder="Enter address manually"/>
+          <button class="btn-secondary" onclick="retryGeocode()">Retry Geocode</button>
         </div>
-        <div class="field-group">
-          <label class="field-label">Price Trend (local 12m)</label>
-          <div class="toggle-group">
-            <button class="toggle-btn" id="tr-up" onclick="setToggle('trend','up',this)">&#8593; Rising</button>
-            <button class="toggle-btn active" id="tr-flat" onclick="setToggle('trend','flat',this)">&#8594; Flat</button>
-            <button class="toggle-btn" id="tr-down" onclick="setToggle('trend','down',this)">&#8595; Declining</button>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Buyer Pool</label>
-          <div class="toggle-group">
-            <button class="toggle-btn" id="bp-thin" onclick="setToggle('buyer_pool','thin',this)">Thin</button>
-            <button class="toggle-btn active" id="bp-medium" onclick="setToggle('buyer_pool','medium',this)">Medium</button>
-            <button class="toggle-btn" id="bp-deep" onclick="setToggle('buyer_pool','deep',this)">Deep</button>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Interest Rate Environment</label>
-          <div class="toggle-group">
-            <button class="toggle-btn" id="ir-low" onclick="setToggle('interest_rate','low',this)">Low / Easy</button>
-            <button class="toggle-btn active" id="ir-rising" onclick="setToggle('interest_rate','rising',this)">Rising</button>
-            <button class="toggle-btn" id="ir-high" onclick="setToggle('interest_rate','high',this)">High / Tight</button>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Geopolitical Climate</label>
-          <div class="toggle-group">
-            <button class="toggle-btn" id="geo-calm" onclick="setToggle('geopolitical','calm',this)">Calm</button>
-            <button class="toggle-btn active" id="geo-tense" onclick="setToggle('geopolitical','tense',this)">Tense</button>
-            <button class="toggle-btn" id="geo-crisis" onclick="setToggle('geopolitical','crisis',this)">Crisis</button>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Transaction Velocity</label>
-          <div class="toggle-group">
-            <button class="toggle-btn" id="tv-slow" onclick="setToggle('transaction_velocity','slow',this)">Slow &gt;12m</button>
-            <button class="toggle-btn active" id="tv-normal" onclick="setToggle('transaction_velocity','normal',this)">Normal 6&#8211;12m</button>
-            <button class="toggle-btn" id="tv-fast" onclick="setToggle('transaction_velocity','fast',this)">Fast &lt;6m</button>
-          </div>
-        </div>
+      </div>
+      <div class="psec">
+        <button class="btn-primary" id="btn-valuate" onclick="runValuation()" disabled>
+          <span class="spinner" id="spin-valuate"></span>
+          <span id="txt-valuate">Run Valuation</span>
+        </button>
+        <button class="btn-secondary" onclick="backToStep1()">&#8592; Back</button>
       </div>
     </div>
 
-    <div class="panel-section">
-      <div class="section-label">Condition &amp; Specifics</div>
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div class="field-group">
-          <label class="field-label">Overall Condition</label>
-          <div class="toggle-group">
-            <button class="toggle-btn" id="cond-poor" onclick="setToggle('condition','poor',this)">Poor</button>
-            <button class="toggle-btn active" id="cond-average" onclick="setToggle('condition','average',this)">Average</button>
-            <button class="toggle-btn" id="cond-good" onclick="setToggle('condition','good',this)">Good</button>
-            <button class="toggle-btn" id="cond-excellent" onclick="setToggle('condition','excellent',this)">Excellent</button>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Legal / Administrative Risk</label>
-          <div class="toggle-group">
-            <button class="toggle-btn" id="leg-clean" onclick="setToggle('legal_risk','clean',this)">Clean</button>
-            <button class="toggle-btn active" id="leg-minor" onclick="setToggle('legal_risk','minor',this)">Minor</button>
-            <button class="toggle-btn" id="leg-material" onclick="setToggle('legal_risk','material',this)">Material</button>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">View / Location Premium</label>
-          <div class="slider-wrap">
-            <input type="range" id="sl-view" min="0" max="10" value="5" oninput="document.getElementById('sv-view').textContent=this.value"/>
-            <span class="slider-val" id="sv-view">5</span>
-          </div>
-          <div class="slider-labels"><span>None</span><span>Iconic</span></div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Trophy / Scarcity Factor</label>
-          <div class="slider-wrap">
-            <input type="range" id="sl-trophy" min="0" max="10" value="4" oninput="document.getElementById('sv-trophy').textContent=this.value"/>
-            <span class="slider-val" id="sv-trophy">4</span>
-          </div>
-          <div class="slider-labels"><span>Generic</span><span>One of a kind</span></div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Additional notes / comparables</label>
-          <textarea id="f-notes" rows="3" placeholder="Known comparable sales, prior offers, agent feedback, unique attributes&#8230;"></textarea>
+    <!-- STEP 3: DONE -->
+    <div id="pane-3" style="display:none">
+      <div class="psec">
+        <div class="slabel">Valuation Complete</div>
+        <div class="info-box">
+          <strong id="done-address"></strong><br/>
+          Results are shown in the right panel. Use the download button to export the full report.
         </div>
       </div>
-    </div>
-
-    <div class="panel-section">
-      <button class="btn-analyze" id="btn-analyze" onclick="runAnalysis()">
-        <span class="spinner" id="spinner"></span>
-        <span id="btn-text">Generate Valuation</span>
-      </button>
+      <div class="psec">
+        <button class="btn-primary" onclick="resetAll()">&#8634; New Valuation</button>
+      </div>
     </div>
 
   </div>
 
+  <!-- RIGHT PANEL -->
   <div class="panel-right" id="panel-right">
     <div class="empty-state" id="empty-state">
       <div class="empty-icon">&#9878;</div>
       <div class="empty-title">No bullshit. No flattery.</div>
-      <div class="empty-sub">Enter the property address and parameters. The engine queries the French notary transaction registry (DVF) for real comparable sales, then derives a defensible auction floor anchored to actual market evidence.</div>
+      <div class="empty-sub">Drop an agency PDF or paste a listing. The engine does the rest &mdash; no manual data entry required.</div>
+      <div class="empty-steps">
+        <div class="empty-step"><div class="empty-step-num">1</div><div>Drop PDF or paste listing text</div></div>
+        <div class="empty-step"><div class="empty-step-num">2</div><div>Confirm the geocoded address</div></div>
+        <div class="empty-step"><div class="empty-step-num">3</div><div>Engine fetches DVF comps &amp; runs full autonomous valuation</div></div>
+      </div>
     </div>
     <div class="results" id="results">
       <div id="loading-area"></div>
@@ -324,229 +304,404 @@ td.sqm{color:var(--gold);font-weight:600}
 </div>
 
 <script>
-const WORKER_URL = 'https://pa-valuation.bvrassat.workers.dev';
+const W = 'https://pa-valuation.bvrassat.workers.dev';
+let state = { property: null, selectedCandidate: null };
 
-const toggleState = {
-  trend:'flat', buyer_pool:'medium', interest_rate:'rising',
-  geopolitical:'tense', transaction_velocity:'normal',
-  condition:'average', legal_risk:'minor'
-};
-
-function setToggle(key, val, el) {
-  toggleState[key] = val;
-  el.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-}
-
-function resetAll() {
-  ['f-address','f-surface','f-ask','f-lastsale','f-dom','f-description','f-notes'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '';
+/* UTILS */
+function setStep(n) {
+  [1,2,3].forEach(i => {
+    const s = document.getElementById('step-'+i);
+    s.classList.remove('active','done');
+    if (i < n) s.classList.add('done');
+    if (i === n) s.classList.add('active');
+    document.getElementById('pane-'+i).style.display = i === n ? 'block' : 'none';
   });
-  document.getElementById('f-type').value = '';
-  document.getElementById('empty-state').style.display = 'flex';
-  document.getElementById('results').classList.remove('visible');
-  document.getElementById('output-area').innerHTML = '';
-  document.getElementById('btn-text').textContent = 'Generate Valuation';
 }
 
-async function runAnalysis() {
-  const address = document.getElementById('f-address').value.trim();
-  if (!address) { alert('Please enter a property address.'); return; }
+function setBtnLoading(btnId, spinId, txtId, loading, label) {
+  const btn = document.getElementById(btnId);
+  btn.disabled = loading;
+  if (loading) btn.classList.add('loading'); else btn.classList.remove('loading');
+  if (label) document.getElementById(txtId).textContent = label;
+}
 
-  const btn = document.getElementById('btn-analyze');
-  const btnText = document.getElementById('btn-text');
-  btn.disabled = true;
-  btn.classList.add('loading');
-  btnText.textContent = 'Analysing';
-
+function showResults() {
   document.getElementById('empty-state').style.display = 'none';
   document.getElementById('results').classList.add('visible');
-
-  const phases = [
-    '&#128205; Geocoding address&#8230;',
-    '&#128193; Querying DVF transaction registry&#8230;',
-    '&#128202; Cross-referencing comparable sales&#8230;',
-    '&#9878; Computing intrinsic value &amp; auction floor&#8230;',
-    '&#9998; Drafting valuation narrative&#8230;'
-  ];
-  let phaseIndex = 0;
-  const loadingArea = document.getElementById('loading-area');
-  const outputArea = document.getElementById('output-area');
-
-  loadingArea.innerHTML = '<div class="phase-indicator"><div class="phase-dot"></div><span id="phase-text">' + phases[0] + '</span></div>' +
-    [1,2,3].map(() => '<div class="skeleton-block" style="height:90px"><div class="sk-h"></div><div class="sk-line"></div><div class="sk-line short"></div></div>').join('');
-  outputArea.innerHTML = '';
-
-  const phaseInterval = setInterval(() => {
-    phaseIndex = (phaseIndex + 1) % phases.length;
-    const pt = document.getElementById('phase-text');
-    if (pt) pt.innerHTML = phases[phaseIndex];
-  }, 2500);
-
-  try {
-    const payload = {
-      address,
-      surface: document.getElementById('f-surface').value || null,
-      property_type: document.getElementById('f-type').value || null,
-      ask_price: document.getElementById('f-ask').value || null,
-      last_sale_year: document.getElementById('f-lastsale').value || null,
-      days_on_market: document.getElementById('f-dom').value || null,
-      notes: [document.getElementById('f-description').value, document.getElementById('f-notes').value].filter(Boolean).join('\n\n') || null,
-      params: {
-        liquidity: document.getElementById('sl-liquidity').value,
-        view_premium: document.getElementById('sl-view').value,
-        trophy: document.getElementById('sl-trophy').value,
-        politics: 6,
-        ...toggleState
-      }
-    };
-
-    const res = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    clearInterval(phaseInterval);
-    loadingArea.innerHTML = '';
-
-    const data = await res.json();
-    if (data.error) { showError(data.error); }
-    else { renderResults(data); }
-
-  } catch (err) {
-    clearInterval(phaseInterval);
-    loadingArea.innerHTML = '';
-    showError(err.message || 'Network error');
-  }
-
-  btn.disabled = false;
-  btn.classList.remove('loading');
-  btnText.textContent = 'Re-run Valuation';
 }
 
 function showError(msg) {
+  showResults();
+  document.getElementById('loading-area').innerHTML = '';
   document.getElementById('output-area').innerHTML =
     '<div class="narrative-block" style="border-left-color:var(--red)">' +
     '<div class="narrative-title" style="color:var(--red)">Error</div>' +
     '<div class="narrative-body">' + msg + '</div></div>';
 }
 
+/* FILE HANDLING */
+function handleFile(file) {
+  if (!file) return;
+  const wrap = document.getElementById('file-pill-wrap');
+  wrap.innerHTML = '<div class="file-pill"><span>&#128196;</span><span>' + file.name + '</span>' +
+    '<span class="remove" onclick="removeFile()">&#215;</span></div>';
+  state.pdfFile = file;
+  document.getElementById('paste-text').value = '';
+}
+
+function removeFile() {
+  state.pdfFile = null;
+  document.getElementById('file-pill-wrap').innerHTML = '';
+  document.getElementById('file-inp').value = '';
+}
+
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('over');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type === 'application/pdf') handleFile(f);
+});
+
+/* STEP 1: EXTRACT */
+async function runExtract() {
+  const text = document.getElementById('paste-text').value.trim();
+  const hasFile = !!state.pdfFile;
+  if (!text && !hasFile) { alert('Please drop a PDF or paste property text.'); return; }
+
+  setBtnLoading('btn-extract','spin-extract','txt-extract', true, 'Extracting...');
+  showResults();
+  document.getElementById('loading-area').innerHTML =
+    '<div class="phase-indicator"><div class="phase-dot"></div><span>Reading document and extracting property data&#8230;</span></div>' +
+    '<div class="skel" style="height:120px"><div class="sk-h"></div><div class="sk-l"></div><div class="sk-l s"></div></div>';
+  document.getElementById('output-area').innerHTML = '';
+
+  try {
+    let body;
+    if (hasFile) {
+      const b64 = await fileToBase64(state.pdfFile);
+      body = { pdf_base64: b64 };
+    } else {
+      body = { text };
+    }
+
+    const res = await fetch(W + '/extract', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    state.property = data;
+    document.getElementById('loading-area').innerHTML = '';
+
+    // Show extracted preview
+    renderExtractedPreview(data);
+
+    // Geocode
+    const addressToGeocode = data.address || (data.city ? data.city + (data.postcode ? ' ' + data.postcode : '') + ', France' : null);
+    if (!addressToGeocode) throw new Error('Could not extract an address from the document. Please paste the address in the text area.');
+
+    document.getElementById('loading-area').innerHTML =
+      '<div class="phase-indicator"><div class="phase-dot"></div><span>Geocoding address&#8230;</span></div>';
+
+    const geoRes = await fetch(W + '/geocode', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address: addressToGeocode })
+    });
+    const geoData = await geoRes.json();
+    document.getElementById('loading-area').innerHTML = '';
+
+    if (geoData.error && (!geoData.candidates || geoData.candidates.length === 0)) {
+      throw new Error(geoData.error);
+    }
+
+    renderCandidates(geoData.candidates || []);
+    setStep(2);
+    setBtnLoading('btn-extract','spin-extract','txt-extract', false, 'Extract Property Data');
+
+  } catch(err) {
+    document.getElementById('loading-area').innerHTML = '';
+    setBtnLoading('btn-extract','spin-extract','txt-extract', false, 'Extract Property Data');
+    showError(err.message);
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result.split(',')[1]);
+    r.onerror = () => rej(new Error('File read failed'));
+    r.readAsDataURL(file);
+  });
+}
+
+function renderExtractedPreview(d) {
+  const rows = [
+    ['Type', d.property_type],
+    ['Surface', d.surface_habitable ? d.surface_habitable + ' m²' : null],
+    ['Land', d.surface_terrain ? d.surface_terrain + ' m²' : null],
+    ['Rooms', d.rooms],
+    ['Bedrooms', d.bedrooms],
+    ['Year built', d.year_built],
+    ['Pool', d.pool ? 'Yes' : null],
+    ['Asking price', d.ask_price_formatted || (d.ask_price ? '€' + Number(d.ask_price).toLocaleString('fr-FR') : null)],
+    ['Condition', d.condition],
+    ['Agent', d.agent_name],
+    ['Ref', d.reference],
+  ].filter(r => r[1]);
+
+  document.getElementById('extracted-preview').innerHTML =
+    rows.map(r => '<div class="ep-row"><span class="ep-label">' + r[0] + '</span><span class="ep-value">' + r[1] + '</span></div>').join('');
+}
+
+/* STEP 2: GEOCODE CANDIDATES */
+function renderCandidates(candidates) {
+  const list = document.getElementById('candidate-list');
+  const noCand = document.getElementById('no-candidates');
+
+  if (!candidates || candidates.length === 0) {
+    list.innerHTML = '';
+    noCand.style.display = 'block';
+    if (state.property?.address) {
+      document.getElementById('manual-address').value = state.property.address;
+    }
+    return;
+  }
+
+  noCand.style.display = 'none';
+  list.innerHTML = candidates.map((c, i) =>
+    '<div class="candidate" id="cand-'+i+'" onclick="selectCandidate('+i+')">' +
+    '<div class="candidate-type">' + (c.type || 'Location') + '</div>' +
+    c.display +
+    '</div>'
+  ).join('');
+
+  state.candidates = candidates;
+  // Auto-select first
+  selectCandidate(0);
+}
+
+function selectCandidate(i) {
+  document.querySelectorAll('.candidate').forEach(c => c.classList.remove('selected'));
+  const el = document.getElementById('cand-'+i);
+  if (el) el.classList.add('selected');
+  state.selectedCandidate = state.candidates[i];
+  document.getElementById('btn-valuate').disabled = false;
+}
+
+async function retryGeocode() {
+  const addr = document.getElementById('manual-address').value.trim();
+  if (!addr) return;
+  const res = await fetch(W + '/geocode', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ address: addr })
+  });
+  const data = await res.json();
+  renderCandidates(data.candidates || []);
+}
+
+function backToStep1() {
+  setStep(1);
+}
+
+/* STEP 3: VALUATION */
+async function runValuation() {
+  if (!state.selectedCandidate || !state.property) return;
+
+  setBtnLoading('btn-valuate','spin-valuate','txt-valuate', true, 'Running valuation...');
+  showResults();
+
+  const phases = [
+    'Querying DVF transaction registry…',
+    'Fetching comparable sales within radius…',
+    'Inferring market parameters…',
+    'Computing intrinsic value and auction floor…',
+    'Drafting valuation narrative…'
+  ];
+  let pi = 0;
+  document.getElementById('loading-area').innerHTML =
+    '<div class="phase-indicator"><div class="phase-dot"></div><span id="phase-txt">' + phases[0] + '</span></div>' +
+    [90,110,90].map(h => '<div class="skel" style="height:'+h+'px"><div class="sk-h"></div><div class="sk-l"></div><div class="sk-l s"></div></div>').join('');
+  document.getElementById('output-area').innerHTML = '';
+
+  const interval = setInterval(() => {
+    pi = (pi+1) % phases.length;
+    const el = document.getElementById('phase-txt');
+    if (el) el.textContent = phases[pi];
+  }, 2800);
+
+  try {
+    const res = await fetch(W + '/valuate', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        property: state.property,
+        lat: state.selectedCandidate.lat,
+        lon: state.selectedCandidate.lon,
+        resolved_address: state.selectedCandidate.display
+      })
+    });
+
+    clearInterval(interval);
+    document.getElementById('loading-area').innerHTML = '';
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    renderResults(data);
+    setStep(3);
+    document.getElementById('done-address').textContent = state.selectedCandidate.display.split(',').slice(0,3).join(',');
+
+  } catch(err) {
+    clearInterval(interval);
+    document.getElementById('loading-area').innerHTML = '';
+    showError(err.message);
+  }
+
+  setBtnLoading('btn-valuate','spin-valuate','txt-valuate', false, 'Run Valuation');
+}
+
+/* RENDER RESULTS */
 function renderResults(r) {
   const meta = r._meta || {};
   const comps = meta.comps || [];
   const compsFound = meta.comps_found || 0;
-  const radiusKm = meta.search_radius_m ? meta.search_radius_m / 1000 : '?';
+  const radiusKm = meta.search_radius_m ? meta.search_radius_m/1000 : '?';
   const confColor = r.auction_confidence >= 65 ? 'var(--green)' : r.auction_confidence >= 40 ? 'var(--amber)' : 'var(--red)';
-  const dirIcon = { bull: '&#8593;', bear: '&#8595;', neut: '&#8594;' };
+  const dIcon = { bull:'&#8593;', bear:'&#8595;', neut:'&#8594;' };
 
   const badgeClass = compsFound >= 5 ? '' : compsFound > 0 ? 'warn' : 'none';
   const badgeText = compsFound >= 5
-    ? compsFound + ' DVF transactions found within ' + radiusKm + 'km'
-    : compsFound > 0
-    ? 'Only ' + compsFound + ' DVF transactions within ' + radiusKm + 'km &#8212; limited evidence'
-    : 'No DVF transactions within ' + radiusKm + 'km &#8212; manual comps required';
+    ? compsFound + ' DVF transactions within ' + radiusKm + 'km'
+    : compsFound > 0 ? 'Only ' + compsFound + ' DVF transactions within ' + radiusKm + 'km'
+    : 'No DVF transactions found within ' + radiusKm + 'km';
 
-  const compsTableHtml = comps.length > 0 ? `
-    <div class="comps-block">
-      <div class="comps-title">DVF Comparable Transactions</div>
-      <table><thead><tr><th>Date</th><th>Address</th><th>m&sup2;</th><th>Price</th><th>&euro;/m&sup2;</th><th>Dist.</th></tr></thead><tbody>
-        ${comps.map(c => '<tr><td>' + (c.date||'').slice(0,7) + '</td><td>' + (c.address||'&#8212;') + '</td><td>' + c.surface + '</td><td class="price">&#8364;' + c.price.toLocaleString('fr-FR') + '</td><td class="sqm">&#8364;' + c.price_per_sqm.toLocaleString('fr-FR') + '</td><td>' + (c.distance_m ? c.distance_m+'m' : '&#8212;') + '</td></tr>').join('')}
-      </tbody></table>
-    </div>` : '';
+  const mp = r.market_parameters_inferred || {};
+  const marketHtml = Object.keys(mp).length ? '<div class="market-block"><div class="narrative-title" style="color:var(--slate)">Market Parameters (Inferred)</div><div class="market-grid">' +
+    Object.entries(mp).map(([k,v]) => '<div class="market-item"><div class="market-item-label">' + k.replace(/_/g,' ') + '</div><div class="market-item-value">' + v + '</div></div>').join('') +
+    '</div></div>' : '';
 
-  const derivHtml = (r.comp_median_price_sqm && r.adjusted_price_sqm) ? `
-    <div class="price-derivation">
-      <div class="pd-title">Price Derivation</div>
-      <div class="pd-row"><span class="pd-label">Comp median price/m&sup2;</span><span class="pd-value">&#8364;${Number(r.comp_median_price_sqm).toLocaleString('fr-FR')}/m&sup2;</span></div>
-      <div class="pd-row"><span class="pd-label">Adjusted price/m&sup2; (condition, view, trophy)</span><span class="pd-value gold">&#8364;${Number(r.adjusted_price_sqm).toLocaleString('fr-FR')}/m&sup2;</span></div>
-      <div class="pd-row"><span class="pd-label">Auction liquidity discount</span><span class="pd-value" style="color:var(--red)">&#8722;${r.auction_discount_pct||'?'}%</span></div>
-    </div>` : '';
+  const derivHtml = (r.comp_median_price_sqm && r.adjusted_price_sqm) ? '<div class="deriv-block">' +
+    '<div class="block-title">Price Derivation</div>' +
+    '<div class="dr-row"><span class="dr-label">Comp median price/m²</span><span class="dr-value">€' + Number(r.comp_median_price_sqm).toLocaleString('fr-FR') + '/m²</span></div>' +
+    '<div class="dr-row"><span class="dr-label">Adjusted price/m²</span><span class="dr-value gold">€' + Number(r.adjusted_price_sqm).toLocaleString('fr-FR') + '/m²</span></div>' +
+    '<div class="dr-row"><span class="dr-label">Auction liquidity discount</span><span class="dr-value" style="color:var(--red)">−' + (r.auction_discount_pct||'?') + '%</span></div>' +
+    '</div>' : '';
 
   const signalsHtml = (r.signals||[]).map((s,i) =>
     '<div class="signal-card' + (i===(r.signals.length-1)&&r.signals.length%2!==0?' full':'') + '">' +
     '<div class="sig-eyebrow">' + s.label + '</div>' +
-    '<div class="sig-score-row"><span class="sig-score ' + s.direction + '">' + (dirIcon[s.direction]||'&#8594;') + ' ' + s.score + '</span>' +
+    '<div class="sig-score-row"><span class="sig-score ' + s.direction + '">' + (dIcon[s.direction]||'&#8594;') + ' ' + s.score + '</span>' +
     '<span class="sig-label">' + s.headline + '</span></div>' +
     '<div class="sig-body">' + s.body + '</div>' +
-    '<div class="sig-mini-bar"><div class="sig-mini-fill ' + s.direction + '" style="width:' + s.score + '%"></div></div>' +
+    '<div class="sig-bar"><div class="sig-fill ' + s.direction + '" style="width:' + s.score + '%"></div></div>' +
     '</div>').join('');
+
+  const compsTableHtml = comps.length ? '<div class="comps-block"><div class="block-title">DVF Comparable Transactions</div>' +
+    '<table><thead><tr><th>Date</th><th>Address</th><th>m²</th><th>Price</th><th>€/m²</th><th>Dist.</th></tr></thead><tbody>' +
+    comps.map(c => '<tr><td>' + (c.date||'').slice(0,7) + '</td><td>' + (c.address||'—') + '</td><td>' + c.surface + '</td>' +
+      '<td class="num">€' + c.price.toLocaleString('fr-FR') + '</td>' +
+      '<td class="gold">€' + c.price_per_sqm.toLocaleString('fr-FR') + '</td>' +
+      '<td>' + (c.distance_m ? c.distance_m+'m' : '—') + '</td></tr>').join('') +
+    '</tbody></table></div>' : '';
 
   const tpHtml = (r.talking_points||[]).map((tp,i) =>
     '<div class="tp-item"><span class="tp-num">'+(i+1)+'</span><span class="tp-text">'+tp+'</span></div>').join('');
 
-  const narrativeParagraphs = [r.narrative?.comp_analysis, r.narrative?.executive_summary, r.narrative?.auction_rationale]
+  const narrativeParagraphs = [r.narrative?.comp_analysis, r.narrative?.market_assessment, r.narrative?.executive_summary, r.narrative?.auction_rationale]
     .filter(Boolean).map(p => '<p>'+p+'</p>').join('');
 
-  document.getElementById('output-area').innerHTML = `
-    <div class="comp-badge ${badgeClass}"><span class="dot"></span>${badgeText}</div>
-    <div class="verdict-header">
-      <div class="verdict-cell"><div class="verdict-eyebrow">Auction Floor</div><div class="verdict-number gold">${r.auction_floor}</div><div class="verdict-sub">6-week minimum target</div></div>
-      <div class="verdict-cell primary"><div class="verdict-eyebrow">Intrinsic Value</div><div class="verdict-number">${r.intrinsic_value}</div><div class="verdict-sub">Fair market estimate</div></div>
-      <div class="verdict-cell"><div class="verdict-eyebrow">Traditional Sale</div><div class="verdict-number amber">${r.traditional_ask}</div><div class="verdict-sub">Patient sale, 6&#8211;18 months</div></div>
-    </div>
-    ${derivHtml}
-    <div class="confidence-bar-wrap">
-      <div class="cb-header"><span class="cb-title">Auction Confidence &#8212; ${r.auction_confidence_label}</span><span class="cb-score" style="color:${confColor}">${r.auction_confidence}/100</span></div>
-      <div class="cb-track"><div class="cb-fill" id="cb-fill"></div></div>
-      <div class="cb-labels"><span class="cb-label">Poor candidate</span><span class="cb-label">Strong candidate</span></div>
-    </div>
-    <div class="signal-grid">${signalsHtml}</div>
-    <div class="narrative-block"><div class="narrative-title">Valuation Analysis</div><div class="narrative-body">${narrativeParagraphs}</div></div>
-    ${compsTableHtml}
-    <div class="talking-points"><div class="tp-title">Seller Talking Points</div>${tpHtml}</div>
-    ${r.data_quality_note ? '<div class="narrative-block" style="border-left-color:var(--slate)"><div class="narrative-title" style="color:var(--slate)">Data Quality Note</div><div class="narrative-body">'+r.data_quality_note+'</div></div>' : ''}
-    <div class="action-bar">
-      <button class="btn-action primary" onclick="downloadReport()">&#8595; Download Report</button>
-      <button class="btn-action" onclick="copyReport()">&#8856; Copy</button>
-      <button class="btn-action" onclick="window.print()">&#9113; Print</button>
-    </div>
-  `;
+  document.getElementById('output-area').innerHTML =
+    '<div class="comp-badge ' + badgeClass + '"><span class="dot"></span>' + badgeText + '</div>' +
+    '<div class="verdict-header">' +
+    '<div class="verdict-cell"><div class="verdict-eyebrow">Auction Floor</div><div class="verdict-number gold">' + r.auction_floor + '</div><div class="verdict-sub">6-week minimum target</div></div>' +
+    '<div class="verdict-cell primary"><div class="verdict-eyebrow">Intrinsic Value</div><div class="verdict-number">' + r.intrinsic_value + '</div><div class="verdict-sub">Fair market estimate</div></div>' +
+    '<div class="verdict-cell"><div class="verdict-eyebrow">Traditional Sale</div><div class="verdict-number amber">' + r.traditional_ask + '</div><div class="verdict-sub">Patient sale, 6–18 months</div></div>' +
+    '</div>' +
+    derivHtml +
+    '<div class="conf-wrap"><div class="cb-header"><span class="cb-title">Auction Confidence — ' + r.auction_confidence_label + '</span><span class="cb-score" style="color:' + confColor + '">' + r.auction_confidence + '/100</span></div>' +
+    '<div class="cb-track"><div class="cb-fill" id="cb-fill"></div></div>' +
+    '<div class="cb-labels"><span class="cb-label">Poor candidate</span><span class="cb-label">Strong candidate</span></div></div>' +
+    marketHtml +
+    '<div class="signal-grid">' + signalsHtml + '</div>' +
+    '<div class="narrative-block"><div class="narrative-title">Valuation Analysis</div><div class="narrative-body">' + narrativeParagraphs + '</div></div>' +
+    compsTableHtml +
+    '<div class="tp-block"><div class="block-title" style="color:var(--slate)">Seller Talking Points</div>' + tpHtml + '</div>' +
+    (r.data_quality_note ? '<div class="narrative-block" style="border-left-color:var(--slate)"><div class="narrative-title" style="color:var(--slate)">Data Quality Note</div><div class="narrative-body">' + r.data_quality_note + '</div></div>' : '') +
+    '<div class="action-bar">' +
+    '<button class="btn-action primary" onclick="downloadReport()">&#8595; Download Report</button>' +
+    '<button class="btn-action" onclick="copyReport()">&#8856; Copy</button>' +
+    '<button class="btn-action" onclick="window.print()">&#9113; Print</button>' +
+    '</div>';
 
   setTimeout(() => { const f = document.getElementById('cb-fill'); if(f) f.style.width = r.auction_confidence+'%'; }, 100);
   document.getElementById('panel-right').scrollTop = 0;
   window._lastResult = r;
 }
 
+/* RESET */
+function resetAll() {
+  state = { property: null, selectedCandidate: null };
+  removeFile();
+  document.getElementById('paste-text').value = '';
+  document.getElementById('extracted-preview').innerHTML = '';
+  document.getElementById('candidate-list').innerHTML = '';
+  document.getElementById('no-candidates').style.display = 'none';
+  document.getElementById('btn-valuate').disabled = true;
+  document.getElementById('empty-state').style.display = 'flex';
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('output-area').innerHTML = '';
+  document.getElementById('loading-area').innerHTML = '';
+  document.getElementById('txt-extract').textContent = 'Extract Property Data';
+  setStep(1);
+}
+
+/* EXPORT */
 function generateReportText() {
   const r = window._lastResult; if (!r) return '';
   const meta = r._meta || {};
   const hr = '-'.repeat(60);
   const date = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-  const address = document.getElementById('f-address').value || 'N/A';
+  const addr = state.selectedCandidate?.display || 'N/A';
+  const mp = r.market_parameters_inferred || {};
   return [
     'PRIMEAUCTIONS - VALUATION REPORT',
-    date + ' | ' + address,
+    date + ' | ' + addr,
     '='.repeat(60), '',
     'AUCTION FLOOR:      ' + r.auction_floor,
     'INTRINSIC VALUE:    ' + r.intrinsic_value,
     'TRADITIONAL SALE:   ' + r.traditional_ask,
     'AUCTION CONFIDENCE: ' + r.auction_confidence + '/100 - ' + r.auction_confidence_label, '',
     'PRICE DERIVATION', hr,
-    'Comp median /m2:  EUR ' + Number(r.comp_median_price_sqm||0).toLocaleString('fr-FR') + '/m2',
-    'Adjusted /m2:     EUR ' + Number(r.adjusted_price_sqm||0).toLocaleString('fr-FR') + '/m2',
+    'Comp median /m2: EUR ' + Number(r.comp_median_price_sqm||0).toLocaleString('fr-FR') + '/m2',
+    'Adjusted /m2:    EUR ' + Number(r.adjusted_price_sqm||0).toLocaleString('fr-FR') + '/m2',
     'Auction discount: -' + (r.auction_discount_pct||'?') + '%', '',
-    'DVF COMPARABLES (' + (meta.comps_found||0) + ' found within ' + (meta.search_radius_m?meta.search_radius_m/1000:'?') + 'km)', hr,
-    ...(meta.comps||[]).map(c => (c.date||'').slice(0,7)+' | '+c.surface+'m2 | EUR '+c.price.toLocaleString('fr-FR')+' | EUR '+c.price_per_sqm.toLocaleString('fr-FR')+'/m2 | '+c.address),
+    'MARKET PARAMETERS (INFERRED)', hr,
+    ...Object.entries(mp).map(([k,v]) => k.replace(/_/g,' ').toUpperCase() + ': ' + v),
+    '',
+    'DVF COMPARABLES (' + (meta.comps_found||0) + ' within ' + (meta.search_radius_m ? meta.search_radius_m/1000 : '?') + 'km)', hr,
+    ...(meta.comps||[]).map(c => (c.date||'').slice(0,7) + ' | ' + c.surface + 'm2 | EUR ' + c.price.toLocaleString('fr-FR') + ' | EUR ' + c.price_per_sqm.toLocaleString('fr-FR') + '/m2 | ' + c.address),
     '', 'SIGNALS', hr,
-    ...(r.signals||[]).map(s => s.label.padEnd(26)+' '+s.direction.toUpperCase()+' '+s.score+'/100 - '+s.headline+'\n  '+s.body),
+    ...(r.signals||[]).map(s => s.label.padEnd(28) + s.direction.toUpperCase() + ' ' + s.score + '/100 - ' + s.headline + '\n  ' + s.body),
     '', 'ANALYSIS', hr,
-    ...[r.narrative?.comp_analysis, r.narrative?.executive_summary, r.narrative?.auction_rationale].filter(Boolean),
+    ...[r.narrative?.comp_analysis, r.narrative?.market_assessment, r.narrative?.executive_summary, r.narrative?.auction_rationale].filter(Boolean),
     '', 'SELLER TALKING POINTS', hr,
-    ...(r.talking_points||[]).map((tp,i) => (i+1)+'. '+tp),
+    ...(r.talking_points||[]).map((tp,i) => (i+1) + '. ' + tp),
     '', r.data_quality_note||'', '',
     'For internal advisory use only. Not a certified appraisal.',
     '(c) Primextate SA - PrimeAuctions'
   ].join('\n');
 }
+
 function downloadReport() {
   const text = generateReportText(); if (!text) return;
   const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  const addr = document.getElementById('f-address').value.replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,30)||'property';
-  a.download = 'primeauctions-valuation-' + addr + '-' + new Date().toISOString().slice(0,10) + '.txt';
+  const slug = (state.selectedCandidate?.city || 'property').replace(/[^a-z0-9]/gi,'-').toLowerCase().slice(0,20);
+  a.download = 'pa-valuation-' + slug + '-' + new Date().toISOString().slice(0,10) + '.txt';
   a.click(); URL.revokeObjectURL(url);
 }
 
